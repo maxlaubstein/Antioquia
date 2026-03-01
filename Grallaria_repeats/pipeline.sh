@@ -104,3 +104,7 @@ bedtools maskfasta -soft -fi /n/holylfs06/LABS/edwards_lab/Lab/maxlaubstein/Anti
 bedtools maskfasta -fi 05_full_out/grallaria.p_ctg.fasta.simple_mask.soft.fasta \
         -bed 05_full_out/grallaria.p_ctg.complex_mask.gff3 \
         -fo 05_full_out/grallaria.p_ctg.simple_mask.soft.complex_mask.hard.fasta
+
+#create soft-masked genome for all repeats:
+bedtools maskfasta -soft -fi /n/holylfs06/LABS/edwards_lab/Lab/maxlaubstein/Antioquia/genomes/assembly/grallaria.p_ctg.fa -bed 05_full_out/grallaria.p_ctg.full_mask.gff3 \
+        -fo 05_full_out/grallaria.p_ctg.fasta.full_mask.soft.fasta
