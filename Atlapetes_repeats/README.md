@@ -2,7 +2,7 @@
 Repeat annotation for the A. blancae genome using RepeatModeler & RepeatMasker, following protocol by Daren Card: https://darencard.net/blog/2022-07-09-genome-repeat-annotation/
 
 Repeat Summary Produced in 05_full_out/blancae.p_ctg.full_mask.tbl:
-
+```
 ==================================================
 file name: blancae.p_ctg.full_mask
 sequences:          3154
@@ -62,3 +62,4 @@ RepeatMasker version 4.1.3-p1 , default mode
 
 run with rmblastn version 2.14.1+
 FamDB: CONS-Dfam_withRBRM_3.6
+```
