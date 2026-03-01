@@ -1,0 +1,454 @@
+Using profile ../profiles/slurm for setting default command line arguments.
+host: holy8a32412.rc.fas.harvard.edu
+Building DAG of jobs...
+Your conda installation is not configured to use strict channel priorities. This is however important for having robust and correct environments (for details, see https://conda-forge.org/docs/user/tipsandtricks.html). Please consider to configure strict priorities by executing 'conda config --set channel_priority strict'.
+Creating conda environment envs/adapter.yaml...
+Downloading and installing remote packages.
+Cleaning up conda package tarballs.
+Environment for /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/envs/adapter.yaml created (location: .snakemake/conda/fce585e0ff9bbd564a140c939c0870df_)
+Creating conda environment envs/quast.yaml...
+Downloading and installing remote packages.
+Cleaning up conda package tarballs.
+Environment for /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/envs/quast.yaml created (location: .snakemake/conda/355a8be5b4ad1fa4a95f027ad39dd28f_)
+Creating conda environment envs/bam2fastq.yaml...
+Downloading and installing remote packages.
+Cleaning up conda package tarballs.
+Environment for /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/envs/bam2fastq.yaml created (location: .snakemake/conda/7ee7ba8b83720cba9ecfdd637c03d504_)
+Creating conda environment envs/hifiasm.yaml...
+Downloading and installing remote packages.
+Cleaning up conda package tarballs.
+Environment for /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/envs/hifiasm.yaml created (location: .snakemake/conda/7e2bce32ec17a92f83ecf14a78a43c2c_)
+You are running snakemake in a SLURM job context. This is not recommended, as it may lead to unexpected behavior. Please run Snakemake directly on the login node.
+SLURM run ID: 35140395-e9ae-4d8b-8875-8167457eb68e
+Using shell: /usr/bin/bash
+Provided remote nodes: 100
+Job stats:
+job              count
+-------------  -------
+adapterfilt          2
+all                  1
+bam2fastq            2
+gfa_to_fasta         6
+hifiasm              2
+quast                6
+rename_contig        6
+total               25
+
+Select jobs to execute...
+Execute 2 jobs...
+
+[Thu Dec  4 16:07:28 2025]
+rule bam2fastq:
+    input: /n/ngsdata/pacbio/251201_REV0053/r84147_20251201_185556/1_B01/hifi_reads/m84147_251201_210716_s2.hifi_reads.bc1002.bam
+    output: results/intermediate_files/blancae_combined_reads.fastq.gz
+    jobid: 6
+    reason: Missing output files: results/intermediate_files/blancae_combined_reads.fastq.gz
+    wildcards: sample=blancae
+    resources: mem_mb=36000, mem_mib=34333, disk_mb=163210, disk_mib=155650, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared, nodes=1, tasks=1, cpus_per_task=1, runtime=4320
+
+Job 6 has been submitted with SLURM jobid 48981514 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_bam2fastq/blancae/48981514.log).
+
+[Thu Dec  4 16:07:28 2025]
+rule bam2fastq:
+    input: /n/ngsdata/pacbio/251201_REV0053/r84147_20251201_185556/1_B01/hifi_reads/m84147_251201_210716_s2.hifi_reads.bc1003.bam
+    output: results/intermediate_files/grallaria_combined_reads.fastq.gz
+    jobid: 12
+    reason: Missing output files: results/intermediate_files/grallaria_combined_reads.fastq.gz
+    wildcards: sample=grallaria
+    resources: mem_mb=36000, mem_mib=34333, disk_mb=138690, disk_mib=132266, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared, nodes=1, tasks=1, cpus_per_task=1, runtime=4320
+
+Job 12 has been submitted with SLURM jobid 48981515 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_bam2fastq/grallaria/48981515.log).
+Waiting for more resources.
+[Thu Dec  4 16:51:24 2025]
+Finished jobid: 12 (Rule: bam2fastq)
+1 of 25 steps (4%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Thu Dec  4 16:51:24 2025]
+rule adapterfilt:
+    input: results/intermediate_files/grallaria_combined_reads.fastq.gz
+    output: results/hifiasm_output_RAW/grallaria.filt.fastq.gz
+    jobid: 11
+    reason: Missing output files: results/hifiasm_output_RAW/grallaria.filt.fastq.gz; Input files updated by another job: results/intermediate_files/grallaria_combined_reads.fastq.gz
+    wildcards: sample=grallaria
+    resources: mem_mb=36000, mem_mib=34333, disk_mb=17109, disk_mib=16317, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared, nodes=1, tasks=1, cpus_per_task=4, runtime=4320
+
+Job 11 has been submitted with SLURM jobid 48996400 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_adapterfilt/grallaria/48996400.log).
+Waiting for more resources.
+[Thu Dec  4 16:56:24 2025]
+Finished jobid: 6 (Rule: bam2fastq)
+2 of 25 steps (8%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Thu Dec  4 16:56:24 2025]
+rule adapterfilt:
+    input: results/intermediate_files/blancae_combined_reads.fastq.gz
+    output: results/hifiasm_output_RAW/blancae.filt.fastq.gz
+    jobid: 5
+    reason: Missing output files: results/hifiasm_output_RAW/blancae.filt.fastq.gz; Input files updated by another job: results/intermediate_files/blancae_combined_reads.fastq.gz
+    wildcards: sample=blancae
+    resources: mem_mb=36000, mem_mib=34333, disk_mb=19469, disk_mib=18568, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared, nodes=1, tasks=1, cpus_per_task=4, runtime=4320
+
+Job 5 has been submitted with SLURM jobid 48997051 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_adapterfilt/blancae/48997051.log).
+Waiting for more resources.
+[Thu Dec  4 16:56:24 2025]
+Finished jobid: 11 (Rule: adapterfilt)
+3 of 25 steps (12%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Thu Dec  4 16:56:24 2025]
+rule hifiasm:
+    input: results/hifiasm_output_RAW/grallaria.filt.fastq.gz
+    output: results/hifiasm_output_RAW/grallaria.p_ctg.gfa, results/hifiasm_output_RAW/grallaria.hap1.p_ctg.gfa, results/hifiasm_output_RAW/grallaria.hap2.p_ctg.gfa
+    log: logs/grallaria.hifiasm.out
+    jobid: 10
+    reason: Missing output files: results/hifiasm_output_RAW/grallaria.hap2.p_ctg.gfa, results/hifiasm_output_RAW/grallaria.p_ctg.gfa, results/hifiasm_output_RAW/grallaria.hap1.p_ctg.gfa; Input files updated by another job: results/hifiasm_output_RAW/grallaria.filt.fastq.gz
+    wildcards: sample=grallaria
+    resources: mem_mb=400000, mem_mib=381470, disk_mb=15283, disk_mib=14576, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=intermediate, nodes=1, tasks=1, cpus_per_task=20, runtime=20160
+
+Job 10 has been submitted with SLURM jobid 48997052 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_hifiasm/grallaria/48997052.log).
+Waiting for more resources.
+[Thu Dec  4 17:02:55 2025]
+Finished jobid: 5 (Rule: adapterfilt)
+4 of 25 steps (16%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Thu Dec  4 17:02:55 2025]
+rule hifiasm:
+    input: results/hifiasm_output_RAW/blancae.filt.fastq.gz
+    output: results/hifiasm_output_RAW/blancae.p_ctg.gfa, results/hifiasm_output_RAW/blancae.hap1.p_ctg.gfa, results/hifiasm_output_RAW/blancae.hap2.p_ctg.gfa
+    log: logs/blancae.hifiasm.out
+    jobid: 4
+    reason: Missing output files: results/hifiasm_output_RAW/blancae.p_ctg.gfa, results/hifiasm_output_RAW/blancae.hap1.p_ctg.gfa, results/hifiasm_output_RAW/blancae.hap2.p_ctg.gfa; Input files updated by another job: results/hifiasm_output_RAW/blancae.filt.fastq.gz
+    wildcards: sample=blancae
+    resources: mem_mb=400000, mem_mib=381470, disk_mb=17417, disk_mib=16611, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=intermediate, nodes=1, tasks=1, cpus_per_task=20, runtime=20160
+
+Job 4 has been submitted with SLURM jobid 48997753 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_hifiasm/blancae/48997753.log).
+Waiting for more resources.
+[Thu Dec  4 17:39:27 2025]
+Finished jobid: 10 (Rule: hifiasm)
+5 of 25 steps (20%) done
+Removing temporary output results/hifiasm_output_RAW/grallaria.filt.fastq.gz.
+Select jobs to execute...
+Execute 3 jobs...
+
+[Thu Dec  4 17:39:27 2025]
+rule gfa_to_fasta:
+    input: results/hifiasm_output_RAW/grallaria.p_ctg.gfa
+    output: results/hifiasm_output_RAW/grallaria.p_ctg.fa
+    jobid: 9
+    reason: Missing output files: results/hifiasm_output_RAW/grallaria.p_ctg.fa; Input files updated by another job: results/hifiasm_output_RAW/grallaria.p_ctg.gfa
+    wildcards: sample=grallaria, haplo=p_ctg
+    resources: mem_mb=16000, mem_mib=15259, disk_mb=2177, disk_mib=2077, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared, nodes=1, tasks=1, cpus_per_task=1, runtime=720
+
+Job 9 has been submitted with SLURM jobid 49002450 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_gfa_to_fasta/grallaria_p_ctg/49002450.log).
+
+[Thu Dec  4 17:39:27 2025]
+rule gfa_to_fasta:
+    input: results/hifiasm_output_RAW/grallaria.hap1.p_ctg.gfa
+    output: results/hifiasm_output_RAW/grallaria.hap1.p_ctg.fa
+    jobid: 18
+    reason: Missing output files: results/hifiasm_output_RAW/grallaria.hap1.p_ctg.fa; Input files updated by another job: results/hifiasm_output_RAW/grallaria.hap1.p_ctg.gfa
+    wildcards: sample=grallaria.hap1, haplo=p_ctg
+    resources: mem_mb=16000, mem_mib=15259, disk_mb=2034, disk_mib=1940, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared, nodes=1, tasks=1, cpus_per_task=1, runtime=720
+
+Job 18 has been submitted with SLURM jobid 49002451 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_gfa_to_fasta/grallaria.hap1_p_ctg/49002451.log).
+
+[Thu Dec  4 17:39:27 2025]
+rule gfa_to_fasta:
+    input: results/hifiasm_output_RAW/grallaria.hap2.p_ctg.gfa
+    output: results/hifiasm_output_RAW/grallaria.hap2.p_ctg.fa
+    jobid: 24
+    reason: Missing output files: results/hifiasm_output_RAW/grallaria.hap2.p_ctg.fa; Input files updated by another job: results/hifiasm_output_RAW/grallaria.hap2.p_ctg.gfa
+    wildcards: sample=grallaria.hap2, haplo=p_ctg
+    resources: mem_mb=16000, mem_mib=15259, disk_mb=1857, disk_mib=1771, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared, nodes=1, tasks=1, cpus_per_task=1, runtime=720
+
+Job 24 has been submitted with SLURM jobid 49002452 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_gfa_to_fasta/grallaria.hap2_p_ctg/49002452.log).
+Waiting for more resources.
+[Thu Dec  4 17:40:07 2025]
+Finished jobid: 9 (Rule: gfa_to_fasta)
+6 of 25 steps (24%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Thu Dec  4 17:40:07 2025]
+rule rename_contig:
+    input: results/hifiasm_output_RAW/grallaria.p_ctg.fa
+    output: results/assembly/grallaria.p_ctg.fa
+    jobid: 8
+    reason: Missing output files: results/assembly/grallaria.p_ctg.fa; Input files updated by another job: results/hifiasm_output_RAW/grallaria.p_ctg.fa
+    wildcards: sample=grallaria, haplo=p_ctg
+    resources: mem_mb=2120, mem_mib=2022, disk_mb=2120, disk_mib=2022, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared
+
+No wall time information given. This might or might not work on your cluster. If not, specify the resource runtime in your rule or as a reasonable default via --default-resources.
+Job 8 has been submitted with SLURM jobid 49002579 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_rename_contig/grallaria_p_ctg/49002579.log).
+Waiting for more resources.
+[Thu Dec  4 17:40:07 2025]
+Finished jobid: 18 (Rule: gfa_to_fasta)
+7 of 25 steps (28%) done
+[Thu Dec  4 17:40:07 2025]
+Finished jobid: 24 (Rule: gfa_to_fasta)
+8 of 25 steps (32%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Thu Dec  4 17:40:07 2025]
+rule rename_contig:
+    input: results/hifiasm_output_RAW/grallaria.hap2.p_ctg.fa
+    output: results/assembly/grallaria.hap2.p_ctg.fa
+    jobid: 23
+    reason: Missing output files: results/assembly/grallaria.hap2.p_ctg.fa; Input files updated by another job: results/hifiasm_output_RAW/grallaria.hap2.p_ctg.fa
+    wildcards: sample=grallaria.hap2, haplo=p_ctg
+    resources: mem_mb=1809, mem_mib=1726, disk_mb=1809, disk_mib=1726, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared
+
+No wall time information given. This might or might not work on your cluster. If not, specify the resource runtime in your rule or as a reasonable default via --default-resources.
+Job 23 has been submitted with SLURM jobid 49002580 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_rename_contig/grallaria.hap2_p_ctg/49002580.log).
+
+[Thu Dec  4 17:40:07 2025]
+rule rename_contig:
+    input: results/hifiasm_output_RAW/grallaria.hap1.p_ctg.fa
+    output: results/assembly/grallaria.hap1.p_ctg.fa
+    jobid: 17
+    reason: Missing output files: results/assembly/grallaria.hap1.p_ctg.fa; Input files updated by another job: results/hifiasm_output_RAW/grallaria.hap1.p_ctg.fa
+    wildcards: sample=grallaria.hap1, haplo=p_ctg
+    resources: mem_mb=1981, mem_mib=1890, disk_mb=1981, disk_mib=1890, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared
+
+No wall time information given. This might or might not work on your cluster. If not, specify the resource runtime in your rule or as a reasonable default via --default-resources.
+Job 17 has been submitted with SLURM jobid 49002581 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_rename_contig/grallaria.hap1_p_ctg/49002581.log).
+Waiting for more resources.
+[Thu Dec  4 17:40:47 2025]
+Finished jobid: 8 (Rule: rename_contig)
+9 of 25 steps (36%) done
+Removing temporary output results/hifiasm_output_RAW/grallaria.p_ctg.fa.
+Select jobs to execute...
+Execute 1 jobs...
+
+[Thu Dec  4 17:40:47 2025]
+rule quast:
+    input: results/assembly/grallaria.p_ctg.fa
+    output: results/assembly_qc/grallaria.p_ctg.quast/report.txt
+    log: logs/grallaria.p_ctg/quast_log
+    jobid: 7
+    reason: Missing output files: results/assembly_qc/grallaria.p_ctg.quast/report.txt; Input files updated by another job: results/assembly/grallaria.p_ctg.fa
+    wildcards: sample=grallaria, haplo=p_ctg
+    resources: mem_mb=16000, mem_mib=15259, disk_mb=2120, disk_mib=2022, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared, nodes=1, tasks=1, cpus_per_task=4, runtime=720
+
+Job 7 has been submitted with SLURM jobid 49002860 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_quast/grallaria_p_ctg/49002860.log).
+Waiting for more resources.
+[Thu Dec  4 17:40:47 2025]
+Finished jobid: 23 (Rule: rename_contig)
+10 of 25 steps (40%) done
+Removing temporary output results/hifiasm_output_RAW/grallaria.hap2.p_ctg.fa.
+[Thu Dec  4 17:40:47 2025]
+Finished jobid: 17 (Rule: rename_contig)
+11 of 25 steps (44%) done
+Removing temporary output results/hifiasm_output_RAW/grallaria.hap1.p_ctg.fa.
+Select jobs to execute...
+Execute 2 jobs...
+
+[Thu Dec  4 17:40:47 2025]
+rule quast:
+    input: results/assembly/grallaria.hap2.p_ctg.fa
+    output: results/assembly_qc/grallaria.hap2.p_ctg.quast/report.txt
+    log: logs/grallaria.hap2.p_ctg/quast_log
+    jobid: 22
+    reason: Missing output files: results/assembly_qc/grallaria.hap2.p_ctg.quast/report.txt; Input files updated by another job: results/assembly/grallaria.hap2.p_ctg.fa
+    wildcards: sample=grallaria.hap2, haplo=p_ctg
+    resources: mem_mb=16000, mem_mib=15259, disk_mb=1809, disk_mib=1726, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared, nodes=1, tasks=1, cpus_per_task=4, runtime=720
+
+Job 22 has been submitted with SLURM jobid 49002861 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_quast/grallaria.hap2_p_ctg/49002861.log).
+
+[Thu Dec  4 17:40:47 2025]
+rule quast:
+    input: results/assembly/grallaria.hap1.p_ctg.fa
+    output: results/assembly_qc/grallaria.hap1.p_ctg.quast/report.txt
+    log: logs/grallaria.hap1.p_ctg/quast_log
+    jobid: 16
+    reason: Missing output files: results/assembly_qc/grallaria.hap1.p_ctg.quast/report.txt; Input files updated by another job: results/assembly/grallaria.hap1.p_ctg.fa
+    wildcards: sample=grallaria.hap1, haplo=p_ctg
+    resources: mem_mb=16000, mem_mib=15259, disk_mb=1981, disk_mib=1890, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared, nodes=1, tasks=1, cpus_per_task=4, runtime=720
+
+Job 16 has been submitted with SLURM jobid 49002862 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_quast/grallaria.hap1_p_ctg/49002862.log).
+Waiting for more resources.
+[Thu Dec  4 17:42:17 2025]
+Finished jobid: 22 (Rule: quast)
+12 of 25 steps (48%) done
+[Thu Dec  4 17:42:17 2025]
+Finished jobid: 16 (Rule: quast)
+13 of 25 steps (52%) done
+[Thu Dec  4 17:44:47 2025]
+Finished jobid: 7 (Rule: quast)
+14 of 25 steps (56%) done
+[Thu Dec  4 19:24:22 2025]
+Finished jobid: 4 (Rule: hifiasm)
+15 of 25 steps (60%) done
+Removing temporary output results/hifiasm_output_RAW/blancae.filt.fastq.gz.
+Select jobs to execute...
+Execute 3 jobs...
+
+[Thu Dec  4 19:24:24 2025]
+rule gfa_to_fasta:
+    input: results/hifiasm_output_RAW/blancae.p_ctg.gfa
+    output: results/hifiasm_output_RAW/blancae.p_ctg.fa
+    jobid: 3
+    reason: Missing output files: results/hifiasm_output_RAW/blancae.p_ctg.fa; Input files updated by another job: results/hifiasm_output_RAW/blancae.p_ctg.gfa
+    wildcards: sample=blancae, haplo=p_ctg
+    resources: mem_mb=16000, mem_mib=15259, disk_mb=2701, disk_mib=2576, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared, nodes=1, tasks=1, cpus_per_task=1, runtime=720
+
+Job 3 has been submitted with SLURM jobid 49015308 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_gfa_to_fasta/blancae_p_ctg/49015308.log).
+
+[Thu Dec  4 19:24:24 2025]
+rule gfa_to_fasta:
+    input: results/hifiasm_output_RAW/blancae.hap2.p_ctg.gfa
+    output: results/hifiasm_output_RAW/blancae.hap2.p_ctg.fa
+    jobid: 21
+    reason: Missing output files: results/hifiasm_output_RAW/blancae.hap2.p_ctg.fa; Input files updated by another job: results/hifiasm_output_RAW/blancae.hap2.p_ctg.gfa
+    wildcards: sample=blancae.hap2, haplo=p_ctg
+    resources: mem_mb=16000, mem_mib=15259, disk_mb=2359, disk_mib=2250, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared, nodes=1, tasks=1, cpus_per_task=1, runtime=720
+
+Job 21 has been submitted with SLURM jobid 49015309 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_gfa_to_fasta/blancae.hap2_p_ctg/49015309.log).
+
+[Thu Dec  4 19:24:24 2025]
+rule gfa_to_fasta:
+    input: results/hifiasm_output_RAW/blancae.hap1.p_ctg.gfa
+    output: results/hifiasm_output_RAW/blancae.hap1.p_ctg.fa
+    jobid: 15
+    reason: Missing output files: results/hifiasm_output_RAW/blancae.hap1.p_ctg.fa; Input files updated by another job: results/hifiasm_output_RAW/blancae.hap1.p_ctg.gfa
+    wildcards: sample=blancae.hap1, haplo=p_ctg
+    resources: mem_mb=16000, mem_mib=15259, disk_mb=2531, disk_mib=2414, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared, nodes=1, tasks=1, cpus_per_task=1, runtime=720
+
+Job 15 has been submitted with SLURM jobid 49015310 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_gfa_to_fasta/blancae.hap1_p_ctg/49015310.log).
+Waiting for more resources.
+[Thu Dec  4 19:25:02 2025]
+Finished jobid: 3 (Rule: gfa_to_fasta)
+16 of 25 steps (64%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Thu Dec  4 19:25:02 2025]
+rule rename_contig:
+    input: results/hifiasm_output_RAW/blancae.p_ctg.fa
+    output: results/assembly/blancae.p_ctg.fa
+    jobid: 2
+    reason: Missing output files: results/assembly/blancae.p_ctg.fa; Input files updated by another job: results/hifiasm_output_RAW/blancae.p_ctg.fa
+    wildcards: sample=blancae, haplo=p_ctg
+    resources: mem_mb=2632, mem_mib=2511, disk_mb=2632, disk_mib=2511, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared
+
+No wall time information given. This might or might not work on your cluster. If not, specify the resource runtime in your rule or as a reasonable default via --default-resources.
+Job 2 has been submitted with SLURM jobid 49015342 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_rename_contig/blancae_p_ctg/49015342.log).
+Waiting for more resources.
+[Thu Dec  4 19:25:02 2025]
+Finished jobid: 21 (Rule: gfa_to_fasta)
+17 of 25 steps (68%) done
+[Thu Dec  4 19:25:02 2025]
+Finished jobid: 15 (Rule: gfa_to_fasta)
+18 of 25 steps (72%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Thu Dec  4 19:25:02 2025]
+rule rename_contig:
+    input: results/hifiasm_output_RAW/blancae.hap2.p_ctg.fa
+    output: results/assembly/blancae.hap2.p_ctg.fa
+    jobid: 20
+    reason: Missing output files: results/assembly/blancae.hap2.p_ctg.fa; Input files updated by another job: results/hifiasm_output_RAW/blancae.hap2.p_ctg.fa
+    wildcards: sample=blancae.hap2, haplo=p_ctg
+    resources: mem_mb=2300, mem_mib=2194, disk_mb=2300, disk_mib=2194, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared
+
+No wall time information given. This might or might not work on your cluster. If not, specify the resource runtime in your rule or as a reasonable default via --default-resources.
+Job 20 has been submitted with SLURM jobid 49015343 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_rename_contig/blancae.hap2_p_ctg/49015343.log).
+
+[Thu Dec  4 19:25:02 2025]
+rule rename_contig:
+    input: results/hifiasm_output_RAW/blancae.hap1.p_ctg.fa
+    output: results/assembly/blancae.hap1.p_ctg.fa
+    jobid: 14
+    reason: Missing output files: results/assembly/blancae.hap1.p_ctg.fa; Input files updated by another job: results/hifiasm_output_RAW/blancae.hap1.p_ctg.fa
+    wildcards: sample=blancae.hap1, haplo=p_ctg
+    resources: mem_mb=2468, mem_mib=2354, disk_mb=2468, disk_mib=2354, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared
+
+No wall time information given. This might or might not work on your cluster. If not, specify the resource runtime in your rule or as a reasonable default via --default-resources.
+Job 14 has been submitted with SLURM jobid 49015344 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_rename_contig/blancae.hap1_p_ctg/49015344.log).
+Waiting for more resources.
+[Thu Dec  4 19:25:42 2025]
+Finished jobid: 2 (Rule: rename_contig)
+19 of 25 steps (76%) done
+Removing temporary output results/hifiasm_output_RAW/blancae.p_ctg.fa.
+Select jobs to execute...
+Execute 1 jobs...
+
+[Thu Dec  4 19:25:42 2025]
+rule quast:
+    input: results/assembly/blancae.p_ctg.fa
+    output: results/assembly_qc/blancae.p_ctg.quast/report.txt
+    log: logs/blancae.p_ctg/quast_log
+    jobid: 1
+    reason: Missing output files: results/assembly_qc/blancae.p_ctg.quast/report.txt; Input files updated by another job: results/assembly/blancae.p_ctg.fa
+    wildcards: sample=blancae, haplo=p_ctg
+    resources: mem_mb=16000, mem_mib=15259, disk_mb=2632, disk_mib=2511, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared, nodes=1, tasks=1, cpus_per_task=4, runtime=720
+
+Job 1 has been submitted with SLURM jobid 49015358 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_quast/blancae_p_ctg/49015358.log).
+Waiting for more resources.
+[Thu Dec  4 19:25:42 2025]
+Finished jobid: 20 (Rule: rename_contig)
+20 of 25 steps (80%) done
+Removing temporary output results/hifiasm_output_RAW/blancae.hap2.p_ctg.fa.
+[Thu Dec  4 19:25:42 2025]
+Finished jobid: 14 (Rule: rename_contig)
+21 of 25 steps (84%) done
+Removing temporary output results/hifiasm_output_RAW/blancae.hap1.p_ctg.fa.
+Select jobs to execute...
+Execute 2 jobs...
+
+[Thu Dec  4 19:25:42 2025]
+rule quast:
+    input: results/assembly/blancae.hap2.p_ctg.fa
+    output: results/assembly_qc/blancae.hap2.p_ctg.quast/report.txt
+    log: logs/blancae.hap2.p_ctg/quast_log
+    jobid: 19
+    reason: Missing output files: results/assembly_qc/blancae.hap2.p_ctg.quast/report.txt; Input files updated by another job: results/assembly/blancae.hap2.p_ctg.fa
+    wildcards: sample=blancae.hap2, haplo=p_ctg
+    resources: mem_mb=16000, mem_mib=15259, disk_mb=2300, disk_mib=2194, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared, nodes=1, tasks=1, cpus_per_task=4, runtime=720
+
+Job 19 has been submitted with SLURM jobid 49015360 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_quast/blancae.hap2_p_ctg/49015360.log).
+
+[Thu Dec  4 19:25:43 2025]
+rule quast:
+    input: results/assembly/blancae.hap1.p_ctg.fa
+    output: results/assembly_qc/blancae.hap1.p_ctg.quast/report.txt
+    log: logs/blancae.hap1.p_ctg/quast_log
+    jobid: 13
+    reason: Missing output files: results/assembly_qc/blancae.hap1.p_ctg.quast/report.txt; Input files updated by another job: results/assembly/blancae.hap1.p_ctg.fa
+    wildcards: sample=blancae.hap1, haplo=p_ctg
+    resources: mem_mb=16000, mem_mib=15259, disk_mb=2468, disk_mib=2354, tmpdir=<TBD>, slurm_account=informatics, slurm_partition=shared, nodes=1, tasks=1, cpus_per_task=4, runtime=720
+
+Job 13 has been submitted with SLURM jobid 49015361 (log: /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/slurm_logs/rule_quast/blancae.hap1_p_ctg/49015361.log).
+Waiting for more resources.
+[Thu Dec  4 19:28:13 2025]
+Finished jobid: 1 (Rule: quast)
+22 of 25 steps (88%) done
+[Thu Dec  4 19:28:13 2025]
+Finished jobid: 19 (Rule: quast)
+23 of 25 steps (92%) done
+[Thu Dec  4 19:28:13 2025]
+Finished jobid: 13 (Rule: quast)
+24 of 25 steps (96%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Thu Dec  4 19:28:13 2025]
+localrule all:
+    input: results/assembly_qc/blancae.p_ctg.quast/report.txt, results/assembly_qc/grallaria.p_ctg.quast/report.txt, results/assembly_qc/blancae.hap1.p_ctg.quast/report.txt, results/assembly_qc/grallaria.hap1.p_ctg.quast/report.txt, results/assembly_qc/blancae.hap2.p_ctg.quast/report.txt, results/assembly_qc/grallaria.hap2.p_ctg.quast/report.txt
+    jobid: 0
+    reason: Input files updated by another job: results/assembly_qc/grallaria.hap1.p_ctg.quast/report.txt, results/assembly_qc/blancae.hap2.p_ctg.quast/report.txt, results/assembly_qc/grallaria.p_ctg.quast/report.txt, results/assembly_qc/blancae.p_ctg.quast/report.txt, results/assembly_qc/blancae.hap1.p_ctg.quast/report.txt, results/assembly_qc/grallaria.hap2.p_ctg.quast/report.txt
+    resources: mem_mb=1000, mem_mib=954, disk_mb=1000, disk_mib=954, tmpdir=/tmp, slurm_account=informatics, slurm_partition=shared
+
+Waiting for more resources.
+[Thu Dec  4 19:28:13 2025]
+Finished jobid: 0 (Rule: all)
+25 of 25 steps (100%) done
+Complete log(s): /n/holylfs05/LABS/informatics/Everyone/support/20251204-laubstein-hifiasmSM/pacbio_hifi_assembly/workflow/.snakemake/log/2025-12-04T160422.547880.snakemake.log
