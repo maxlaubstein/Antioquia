@@ -1,0 +1,141 @@
+import yaml
+import glob, os, pathlib
+
+
+#Config file
+configfile: "../config/config.yaml"
+
+#Sample sheet mapping smaple IDs to reads files
+# samsheet="../config/sample_sheet.tsv"
+# samdict = {}
+# with open(samsheet) as fin:
+#     for line in fin:
+#         line = line.rstrip()
+#         data = line.split("\t")
+#         #samdict[data[0]] = data[1]
+#         samdict[data[0]] = {'reads' : data[1]}
+
+#Input function to get reads
+def get_reads(wildcards):
+    #Make space separated list of BAM files for given sample
+    # files = samdict[wildcards.sample]['reads'].split(" ")
+    # return files
+    return config["samples"][wildcards.sample]
+
+#Gets info from config file:
+samples = config["samples"]
+haplotypes=["p_ctg", "hap1.p_ctg", "hap2.p_ctg"]
+hifi_outdir = config["hifi_outdir"]
+assem_outdir = config["assem_outdir"]
+inter_outdir = config["intermediate_outdir"]
+
+
+rule all:
+    input:
+        expand("results/assembly_qc/{sample}.{haplo}.quast/report.txt", haplo=haplotypes, sample=samples)
+
+#WIP: need options for demultiplexing
+rule bam2fastq:
+    input:
+        #files = config["reads"].split(" ")
+        #Call input function
+        get_reads
+    output:
+        inter_outdir + "/{sample}_combined_reads.fastq.gz"
+    conda:
+        "envs/bam2fastq.yaml"
+    params:
+        prefix = inter_outdir + "/{sample}_combined_reads"
+    shell:
+        """
+        file_array=({input})
+
+        bam2fastq -o {params.prefix} {input}
+
+        """
+
+
+rule adapterfilt:
+    input:
+        inter_outdir + "/{sample}_combined_reads.fastq.gz"
+    output:
+        temp(hifi_outdir + "/{sample}.filt.fastq.gz")
+    conda:
+        "envs/adapter.yaml"
+    shell:
+        "cutadapt --discard-trimmed -j {threads} --overlap=35 -b ATCTCTCTCAACAACAACAACGGAGGAGGAGGAAAAGAGAGAGAT -b ATCTCTCTCTTTTCCTCCTCCTCCGTTGTTGTTGTTGAGAGAGAT -o {output} {input}"
+
+#WIP: how to handle if want diploid assembly, or primary only? Separate rules?? Flags??
+#Three options: hifi-only (partially phased or primary/alternate), HiC integrated, trio-binning (don't include, involves lots of steps)
+rule hifiasm:
+    input:
+        hifi_outdir + "/{sample}.filt.fastq.gz"
+    output:
+        pasm = hifi_outdir + "/{sample}.p_ctg.gfa",
+        hap1asm = hifi_outdir + "/{sample}.hap1.p_ctg.gfa",
+        hap2asm = hifi_outdir + "/{sample}.hap2.p_ctg.gfa"
+    conda:
+        "envs/hifiasm.yaml"
+    params:
+        hic = config["use_hiC"],
+        hic1 = config["hiC_read1"],
+        hic2 = config["hiC_read2"],
+        ont = config["use_ont"],
+        ontReads = config["ont_reads"],
+        outdir = hifi_outdir + "/{sample}"
+    log:
+        "logs/{sample}.hifiasm.out"
+    shell: #The output naming format is slightly different in Hifiasm based on mode; this logic deals with that by renaming output
+        """
+        if [[ "{params.hic}" == "true" ]] && [[ "{params.ont}" == "true" ]]; then
+            hifiasm -t {threads} --ul {params.ontReads} --h1 {params.hic1} --h2 {params.hic2} -o {params.outdir} {input} 2> {log}
+            mv {params.outdir}.hic.p_ctg.gfa {output.pasm}
+            mv {params.outdir}.hic.hap1.p_ctg.gfa {output.hap1asm}
+            mv {params.outdir}.hic.hap2.p_ctg.gfa {output.hap2asm}
+        elif [[ "{params.hic}" == "true" ]] && [[ "{params.ont}" == "false" ]]; then
+            hifiasm -t {threads} --h1 {params.hic1} --h2 {params.hic2} -o {params.outdir} {input} 2> {log}
+            mv {params.outdir}.hic.p_ctg.gfa {output.pasm}
+            mv {params.outdir}.hic.hap1.p_ctg.gfa {output.hap1asm}
+            mv {params.outdir}.hic.hap2.p_ctg.gfa {output.hap2asm}
+        elif [[ "{params.hic}" == "false" ]] && [[ "{params.ont}" == "true" ]]; then
+            hifiasm -t {threads} --ul {params.ontReads} -o {params.outdir} {input} 2> {log}
+            mv {params.outdir}.bp.p_ctg.gfa {output.pasm}
+            mv {params.outdir}.bp.hap1.p_ctg.gfa {output.hap1asm}
+            mv {params.outdir}.bp.hap2.p_ctg.gfa {output.hap2asm}
+        else
+            hifiasm -t {threads} -o {params.outdir} {input} 2> {log}
+            mv {params.outdir}.bp.p_ctg.gfa {output.pasm}
+            mv {params.outdir}.bp.hap1.p_ctg.gfa {output.hap1asm}
+            mv {params.outdir}.bp.hap2.p_ctg.gfa {output.hap2asm}
+        fi
+        """
+
+rule gfa_to_fasta:
+    input:
+        hifi_outdir + "/{sample}.{haplo}.gfa"
+    output:
+        temp(hifi_outdir + "/{sample}.{haplo}.fa")
+    shell:
+        "awk '/^S/{{print \">\"$2;print $3}}' {input} > {output}"
+
+rule rename_contig:
+    input:
+        hifi_outdir + "/{sample}.{haplo}.fa"
+    output:
+        assem_outdir + "/{sample}.{haplo}.fa"
+    shell:
+        "awk -v sample={wildcards.sample} -v haplo={wildcards.haplo} 'BEGIN{{FS=\">\"; OFS=\"#\"}} /^>/{{if (haplo ~ /hap/) print \">\"sample,haplo,$2; else print \">\"sample,\"pri\",$2}} !/^>/{{print;}}' {input} > {output}"
+
+rule quast:
+    input:
+        assem_outdir + "/{sample}.{haplo}.fa"
+    params:
+        prefix="results/assembly_qc/{sample}.{haplo}.quast"
+    output:
+        "results/assembly_qc/{sample}.{haplo}.quast/report.txt"
+    conda:
+        "envs/quast.yaml"
+    log:
+        "logs/{sample}.{haplo}/quast_log/"
+    shell:
+        "quast.py -t {threads} --eukaryote -o {params.prefix} {input} &> {log}"
