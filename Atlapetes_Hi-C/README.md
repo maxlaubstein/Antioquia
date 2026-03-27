@@ -1,1 +1,1 @@
-Hi
+Hi-C scaffolding the reference genome for Atlapetes blancae. First, chromap is used to map Hi-C reads to the primary assembly, outputting a SAM file. This SAM file is then converted to a sorted BAM file. Then, I use YaHS to scaffold the assembly, using the BAM file as input.
