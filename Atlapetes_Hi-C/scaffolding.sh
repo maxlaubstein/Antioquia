@@ -1,3 +1,14 @@
+#!/bin/bash
+#SBATCH --job-name=scaffolding
+#SBATCH --partition=shared,edwards
+#SBATCH --time=10:00:00
+#SBATCH --mem=32G
+#SBATCH --output=scaffolding.%j.log
+#SBATCH --error=scaffolding.%j.err
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+
+
 source ~/.bashrc
 mamba activate chromap_env
 
@@ -17,12 +28,8 @@ mamba activate samtools_env
 #Convert SAM file to BAM file
 samtools view -bS  Ablancae.sam -o Ablancae.bam
 
-#sort BAM file by first column
-samtools sort -n -@ 16 -o Ablancae_YaHS.bam Ablancae_marked_dups.bam
-
 #index assembly
 samtools faidx $assembly
-samtools faidx /n/holylfs06/LABS/edwards_lab/Lab/maxlaubstein/Antioquia/genomes/assembly/blancae.p_ctg.fa
 
 #run YaHS:
-yahs $assembly Ablancae_YaHS.bam
+yahs $assembly Ablancae.bam
