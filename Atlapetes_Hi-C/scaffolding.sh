@@ -32,4 +32,4 @@ samtools view -bS  Ablancae.sam -o Ablancae.bam
 samtools faidx $assembly
 
 #run YaHS:
-yahs $assembly Ablancae.bam
+ ~/yahs/yahs $assembly Ablancae.bam
