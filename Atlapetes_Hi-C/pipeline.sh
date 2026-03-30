@@ -2,6 +2,8 @@ mamba activate chromap_env
 
 assembly="/n/holylfs06/LABS/edwards_lab/Lab/maxlaubstein/Antioquia/genomes/assembly/blancae.p_ctg.fa"
 
+#Teresa used fastp to remove duplicates prior to mapping
+
 #index the assembly
 chromap -i -r $assembly -o Atlapetes_index
 
