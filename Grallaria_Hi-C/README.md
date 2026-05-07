@@ -201,3 +201,24 @@ perl Arima_Scripts/two_read_bam_combiner.pl filtered_bam/grallaria_R1.bam \
 
 ## Add read groups with Picard:
 
+```add_read_groups.sbatch```:
+~~~
+#!/bin/bash
+#SBATCH --job-name=add_read_groups
+#SBATCH --partition=shared,edwards
+#SBATCH --time=10:00:00
+#SBATCH --mem=32G
+#SBATCH --output=logs/add_read_groups.%j.log
+#SBATCH --error=logs/add_read_groups.%j.err
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=32
+
+source ~/.bashrc
+mamba activate picard_env
+
+mkdir -p paired_bam
+
+picard AddOrReplaceReadGroups INPUT=tmp_dir/grallaria.bam OUTPUT=paired_bam/grallaria.bam \
+	ID=grallaria LB=grallaria SM=grallaria PL=ILLUMINA PU=none
+~~~
+
