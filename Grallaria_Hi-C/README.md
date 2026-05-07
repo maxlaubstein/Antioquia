@@ -106,7 +106,7 @@ mkdir -p aligned_bam
 samtools flagstat aligned_bam/grallaria_R2.bam > grallaria_R2.bam.stats
 ~~~
 
-Now it's time for more work. In this directory ```/n/holylfs06/LABS/edwards_lab/Lab/maxlaubstein/Antioquia/Arima_HiC_Pipeline_Grallaria``` I have another directory ```Arima_Scripts``` containing several scripts provided by the Arima Mapping Pipeline (https://github.com/ArimaGenomics/mapping_pipeline/blob/master/filter_five_end.pl).
+Now it's time for more work. In this directory ```/n/holylfs06/LABS/edwards_lab/Lab/maxlaubstein/Antioquia/Arima_HiC_Pipeline_Grallaria``` I have another directory ```Arima_Scripts``` containing several scripts provided by the Arima Mapping Pipeline (https://github.com/ArimaGenomics/mapping_pipeline/blob/master/filter_five_end.pl). I literally just copy-pasted the scripts in.
 
 ## Filter 5' ends of chimeric reads (R1):
 
@@ -150,4 +150,10 @@ mamba activate samtools_env
 mkdir -p filtered_bam
 
 samtools view -h  aligned_bam/grallaria_R2.bam  | perl Arima_Scripts/filter_five_end.pl | samtools view -Sb - > filtered_bam/grallaria_R2.bam
+~~~
+
+## Pair single-end read reads:
+
+```pair_single_ends.sbatch```:
+~~~
 ~~~
