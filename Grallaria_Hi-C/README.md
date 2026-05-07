@@ -105,3 +105,27 @@ mkdir -p aligned_bam
 #get stats
 samtools flagstat aligned_bam/grallaria_R2.bam > grallaria_R2.bam.stats
 ~~~
+
+Now it's time for more work. In this directory ```/n/holylfs06/LABS/edwards_lab/Lab/maxlaubstein/Antioquia/Arima_HiC_Pipeline_Grallaria``` I have another directory ```Arima_Scripts``` containing several scripts provided by the Arima Mapping Pipeline (https://github.com/ArimaGenomics/mapping_pipeline/blob/master/filter_five_end.pl).
+
+## Filter 5' ends of chimeric reads (R1):
+
+```filter_five_R1.sbatch```:
+~~~
+#!/bin/bash
+#SBATCH --job-name=filter_5_R1
+#SBATCH --partition=shared,edwards
+#SBATCH --time=60:00:00
+#SBATCH --mem=32G
+#SBATCH --output=logs/filter_5_R1.%j.log
+#SBATCH --error=logs/filter_5_R1.%j.err
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+
+source ~/.bashrc
+mamba activate samtools_env
+
+mkdir -p filtered_bam
+
+samtools view -h  aligned_bam/grallaria_R1.bam  | perl Arima_Scripts/filter_five_end.pl | samtools view -Sb - > filtered_bam/grallaria_R1.bam
+~~~
