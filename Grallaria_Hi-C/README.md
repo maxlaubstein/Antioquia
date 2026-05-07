@@ -30,7 +30,7 @@ assembly="assembly/grallaria.p_ctg.fa"
 ```trim.sbatch```:
 ~~~
  #!/bin/bash
-#SBATCH --job-name=index
+#SBATCH --job-name=trim
 #SBATCH --partition=shared,edwards
 #SBATCH --time=60:00:00
 #SBATCH --mem=32G
