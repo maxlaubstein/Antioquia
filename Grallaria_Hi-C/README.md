@@ -1,6 +1,6 @@
 # Grallaria Hi-C
 
-## Index the assembly:
+## Index the assembly with BWA:
 
 ```cd /n/holylfs06/LABS/edwards_lab/Lab/maxlaubstein/Antioquia/Arima_HiC_Pipeline_Grallaria```
 
@@ -9,7 +9,7 @@
 #!/bin/bash
 #SBATCH --job-name=index
 #SBATCH --partition=shared,edwards
-#SBATCH --time=60:00:00
+#SBATCH --time=10:00:00
 #SBATCH --mem=32G
 #SBATCH --output=logs/index.%j.log
 #SBATCH --error=logs/index.%j.err
@@ -25,6 +25,30 @@ assembly="assembly/grallaria.p_ctg.fa"
 ~/bwa/bwa index -a bwtsw $assembly
 ~~~
 
+## Also index with samtools:
+
+```faidx.sbatch```:
+~~~
+#!/bin/bash
+#SBATCH --job-name=faidx
+#SBATCH --partition=shared,edwards
+#SBATCH --time=10:00:00
+#SBATCH --mem=32G
+#SBATCH --output=logs/faidx.%j.log
+#SBATCH --error=logs/faidx.%j.err
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+
+source ~/.bashrc
+mamba activate samtools_env
+
+mkdir -p assembly
+mkdir -p logs
+assembly="assembly/grallaria.p_ctg.fa"
+samtools index $assembly
+~~~
+
+
 ## Trim the Hi-C reads:
 
 ```trim.sbatch```:
@@ -32,7 +56,7 @@ assembly="assembly/grallaria.p_ctg.fa"
  #!/bin/bash
 #SBATCH --job-name=trim
 #SBATCH --partition=shared,edwards
-#SBATCH --time=60:00:00
+#SBATCH --time=10:00:00
 #SBATCH --mem=32G
 #SBATCH --output=logs/trim.%j.log
 #SBATCH --error=logs/trim.%j.err
@@ -57,7 +81,7 @@ cutadapt -j 16 -u 5 -U 5 -o trimmed_reads/R1.trimmed.fastq.gz -p trimmed_reads/R
 #!/bin/bash
 #SBATCH --job-name=map_R1
 #SBATCH --partition=shared,edwards
-#SBATCH --time=60:00:00
+#SBATCH --time=10:00:00
 #SBATCH --mem=32G
 #SBATCH --output=logs/map_R1.%j.log
 #SBATCH --error=logs/map_R1.%j.err
@@ -85,7 +109,7 @@ samtools flagstat aligned_bam/grallaria_R1.bam > grallaria_R1.bam.stats
 #!/bin/bash
 #SBATCH --job-name=map_R2
 #SBATCH --partition=shared,edwards
-#SBATCH --time=60:00:00
+#SBATCH --time=10:00:00
 #SBATCH --mem=32G
 #SBATCH --output=logs/map_R2.%j.log
 #SBATCH --error=logs/map_R2.%j.err
