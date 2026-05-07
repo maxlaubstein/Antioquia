@@ -45,7 +45,7 @@ mamba activate samtools_env
 mkdir -p assembly
 mkdir -p logs
 assembly="assembly/grallaria.p_ctg.fa"
-samtools index $assembly
+samtools faidx $assembly
 ~~~
 
 
