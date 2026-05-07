@@ -180,4 +180,24 @@ samtools view -h  aligned_bam/grallaria_R2.bam  | perl Arima_Scripts/filter_five
 
 ```pair_single_ends.sbatch```:
 ~~~
+#!/bin/bash
+#SBATCH --job-name=pair_reads
+#SBATCH --partition=shared,edwards
+#SBATCH --time=10:00:00
+#SBATCH --mem=32G
+#SBATCH --output=logs/pair_reads.%j.log
+#SBATCH --error=logs/pair_reads.%j.err
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=32
+
+source ~/.bashrc
+mamba activate samtools_env
+
+mkdir -p tmp_dir
+
+perl Arima_Scripts/two_read_bam_combiner.pl filtered_bam/grallaria_R1.bam \
+        filtered_bam/grallaria_R2.bam samtools 10 | samtools view -bS -t assembly/grallaria.p_ctg.fa.fai - | samtools sort -@ 32 -o tmp_dir/grallaria.bam -
 ~~~
+
+## Add read groups with Picard:
+
