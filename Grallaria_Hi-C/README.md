@@ -115,7 +115,7 @@ Now it's time for more work. In this directory ```/n/holylfs06/LABS/edwards_lab/
 #!/bin/bash
 #SBATCH --job-name=filter_5_R1
 #SBATCH --partition=shared,edwards
-#SBATCH --time=60:00:00
+#SBATCH --time=2:00:00
 #SBATCH --mem=32G
 #SBATCH --output=logs/filter_5_R1.%j.log
 #SBATCH --error=logs/filter_5_R1.%j.err
@@ -128,4 +128,26 @@ mamba activate samtools_env
 mkdir -p filtered_bam
 
 samtools view -h  aligned_bam/grallaria_R1.bam  | perl Arima_Scripts/filter_five_end.pl | samtools view -Sb - > filtered_bam/grallaria_R1.bam
+~~~
+
+## Filter 5' ends of chimeric reads (R2):
+
+```filter_five_R2.sbatch```:
+~~~
+#!/bin/bash
+#SBATCH --job-name=filter_5_R2
+#SBATCH --partition=shared,edwards
+#SBATCH --time=2:00:00
+#SBATCH --mem=32G
+#SBATCH --output=logs/filter_5_R2.%j.log
+#SBATCH --error=logs/filter_5_R2.%j.err
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+
+source ~/.bashrc
+mamba activate samtools_env
+
+mkdir -p filtered_bam
+
+samtools view -h  aligned_bam/grallaria_R2.bam  | perl Arima_Scripts/filter_five_end.pl | samtools view -Sb - > filtered_bam/grallaria_R2.bam
 ~~~
