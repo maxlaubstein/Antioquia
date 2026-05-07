@@ -4,6 +4,7 @@
 
 ```cd /n/holylfs06/LABS/edwards_lab/Lab/maxlaubstein/Antioquia/Arima_HiC_Pipeline_Grallaria```
 
+```index.sbatch```:
 ~~~
 #!/bin/bash
 #SBATCH --job-name=index
