@@ -48,7 +48,6 @@ R1="/n/holylfs06/LABS/edwards_lab/Lab/maxlaubstein/Antioquia/Atlapetes_HiC/20260
 R2="/n/holylfs06/LABS/edwards_lab/Lab/maxlaubstein/Antioquia/Atlapetes_HiC/20260312_LH00541_0124_A22CTYGLT1_SUB17798/fastq/max_hi_c_S1_L001_R2_001.fastq.gz"
 
 cutadapt -j 16 -u 5 -U 5 -o trimmed_reads/R1.trimmed.fastq.gz -p trimmed_reads/R2.trimmed.fastq.gz $R1 $R2
-
 ~~~
 
 ## Map the R1 reads:
@@ -77,8 +76,32 @@ mkdir -p aligned_bam
 
 #get stats
 samtools flagstat aligned_bam/grallaria_R1.bam > grallaria_R1.bam.stats
+~~~
 
+## Map the R2 reads:
 
+```map_R2.sbatch```:
+~~~
+#!/bin/bash
+#SBATCH --job-name=map_R2
+#SBATCH --partition=shared,edwards
+#SBATCH --time=60:00:00
+#SBATCH --mem=32G
+#SBATCH --output=logs/map_R2.%j.log
+#SBATCH --error=logs/map_R2.%j.err
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
 
+source ~/.bashrc
+mamba activate samtools_env
 
+assembly="assembly/grallaria.p_ctg.fa"
+#trimmed read paths:
+R2_trimmed="trimmed_reads/R2.trimmed.fastq.gz"
+
+mkdir -p aligned_bam
+~/bwa/bwa mem -t 16 $assembly $R2_trimmed | samtools view -@ 16  -Sb - > aligned_bam/grallaria_R2.bam
+
+#get stats
+samtools flagstat aligned_bam/grallaria_R2.bam > grallaria_R2.bam.stats
 ~~~
