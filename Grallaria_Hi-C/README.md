@@ -222,3 +222,34 @@ picard AddOrReplaceReadGroups INPUT=tmp_dir/grallaria.bam OUTPUT=paired_bam/gral
 	ID=grallaria LB=grallaria SM=grallaria PL=ILLUMINA PU=none
 ~~~
 
+## Remove PCR duplicates with Picard:
+
+```remove_duplicates.sbatch```:
+~~~
+#!/bin/bash
+#SBATCH --job-name=remove_dups
+#SBATCH --partition=shared,edwards
+#SBATCH --time=10:00:00
+#SBATCH --mem=32G
+#SBATCH --output=logs/remove_dups.%j.log
+#SBATCH --error=logs/remove_dups.%j.err
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=32
+
+source ~/.bashrc
+mamba activate picard_env
+
+mkdir -p dedup_bam
+
+picard MarkDuplicates INPUT=paired_bam/grallaria.bam OUTPUT=dedup_bam/grallaria.bam METRICS_FILE=dedup_bam/metrics.grallaria.txt \
+	TMP_DIR=tmp_dir ASSUME_SORTED=TRUE VALIDATION_STRINGENCY=LENIENT REMOVE_DUPLICATES=TRUE
+
+mamba deactivate
+mamba activate samtools_env
+
+samtools index dedup_bam/grallaria.bam
+
+mamba deactivate
+
+perl Arima_Scripts/get_stats.pl dedup_bam/grallaria.bam > dedup_bam/grallaria.bam.stats
+~~~
