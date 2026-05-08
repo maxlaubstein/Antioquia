@@ -253,3 +253,33 @@ mamba deactivate
 
 perl Arima_Scripts/get_stats.pl dedup_bam/grallaria.bam > dedup_bam/grallaria.bam.stats
 ~~~
+
+Removing PCR duplicates with PCR didn't have any errors, but the perl get_stats script finds no valid Hi-C pairs in the dedup bam file. However, when I run it on the paired bam file the stats seem reasonable. This leads me to think there's something about the deduped picard output that messes with the provided get_stats perl script – when I checked the dedup bam file it looked normal. So, let's proceed to scaffolding.
+
+## Scaffolding with YaHS:
+
+```scaffold.sbatch```:
+~~~
+#!/bin/bash
+#SBATCH --job-name=scaffold
+#SBATCH --partition=shared,edwards
+#SBATCH --time=10:00:00
+#SBATCH --mem=32G
+#SBATCH --output=logs/scaffold.%j.log
+#SBATCH --error=logs/scaffold.%j.err
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=32
+
+source ~/.bashrc
+#mamba activate samtools_env
+assembly="/n/holylfs06/LABS/edwards_lab/Lab/maxlaubstein/Antioquia/genomes/assembly/grallaria.p_ctg.fa"
+#index assembly
+#samtools faidx $assembly
+
+mkdir -p yahs_out
+
+#run yahs
+ ~/yahs/yahs $assembly dedup_bam/grallaria.bam -o yahs_out/Grallaria_scaffolded
+~~~
+
+Note: lines for indexing are commented out (assuming the assembly has already been indexed, and a .fai file exists).
